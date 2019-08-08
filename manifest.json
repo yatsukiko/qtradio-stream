@@ -1,0 +1,8 @@
+{
+  "name": "qtradio-stream",
+  "version": "1.0.0",
+  "description": "Adds qtradio playback in discord",
+  "author": "yatsukiko",
+  "license": "MIT",
+  "repo": "https://github.com/yatsukiko/qtradio-stream"
+}
