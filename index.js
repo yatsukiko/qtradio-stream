@@ -44,8 +44,6 @@ module.exports = class qtradio extends Plugin {
 					var bitrateSource = args[1];
 					var volume = args[0];
 
-					console.log(bitrateSource)
-
 					switch (bitrateSource) {
 						case undefined:
 						case "320": {
