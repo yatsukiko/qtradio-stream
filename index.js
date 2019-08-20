@@ -68,7 +68,7 @@ module.exports = class qtradio extends Plugin {
 						}
 					} else {
 						if (!bitrateSource) {
-							this.audio.src = "https://qtradio.moe/stream"
+							this.audio.src = "http://meek.moe:8000/streamhigh.mp3"
 							return {
 								send: false,
 								result: format("high", 320, volume)
@@ -90,7 +90,7 @@ module.exports = class qtradio extends Plugin {
 				}
 				else {
 					this.audio.volume = 1
-					this.audio.src = "https://qtradio.moe/stream"
+					this.audio.src = "http://meek.moe:8000/streamhigh.mp3"
 					return {
 						send: false,
 						result: format("high", this.audio.src, 100)
