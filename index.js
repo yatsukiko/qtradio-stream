@@ -120,18 +120,8 @@ module.exports = class qtradio extends Plugin {
 			[],
 			"Toggle mutes playback, a better pause.",
 			"{c}",
-			() => {
-				if (muteToggle) {
-					this.audio.muted = true
-					muteToggle = true;
-
-					return
-				}
-				else if (!muteToggle) {
-					this.audio.muted = false
-					muteToggle = false;
-				}
-			})
+			() => this.audio.muted = !this.audio.muted
+			)
 
 		this.registerCommand(
 			"qtvolume",
