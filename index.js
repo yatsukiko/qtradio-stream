@@ -127,7 +127,7 @@ module.exports = class qtradio extends Plugin {
 
 					return
 				}
-				else if (muteToggle) {
+				else if (!muteToggle) {
 					this.audio.muted = false
 					muteToggle = false;
 				}
