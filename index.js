@@ -22,29 +22,36 @@ module.exports = class qtradio extends Plugin {
 			"Starts playback, volume on first argument, bitrate/stream on second.",
 			"{c} 1-100 <320, 192, 96, url>",
 			(args) => {
+				var quality;
+				var bitrateSource = args[1];
+				var volume = args[0];
 				this.audio.autoplay = true
-				if (args[0]) {
-					if (args[0] > 100) { //checks if first arguemnt is larger than 100
+				
+				if (volume) {
+					if (volume > 100) { //checks if first arguemnt is larger than 100
 						return {
 							send: false,
 							result: "Max 100 for volume."
 						};
 					}
-					else if (isNaN(args[0])) {
+					if (volume < 0) { //checks if first arguemnt is larger than 100
+						return {
+							send: false,
+							result: "Minimum 0 for volume."
+						};
+					}
+					else if (isNaN(volume)) {
 						return {
 							send: false,
 							result: `"${args[0]}" is not a valid argument for volume.`
 						}
 					}
 					else {
-						this.audio.volume = args[0] / 100 //uses arguments to set volume
+						this.audio.volume = volume / 100 //uses arguments to set volume
 					}
 
-					var quality;
-					var bitrateSource = args[1];
-					var volume = args[0];
-
-					switch (bitrateSource) {
+					
+					/*switch (bitrateSource) {               //fix qtradio ples
 						case undefined:
 						case "320": {
 							quality = "high";
@@ -58,7 +65,7 @@ module.exports = class qtradio extends Plugin {
 							quality = "low";
 							break;
 						}
-					}
+					}*/
 
 					if (bitrateSource && bitrateSource.startsWith("http")) {
 						this.audio.src = bitrateSource;
@@ -68,13 +75,14 @@ module.exports = class qtradio extends Plugin {
 						}
 					} else {
 						if (!bitrateSource) {
-							this.audio.src = "http://meek.moe:8000/streamhigh.mp3"
+							//this.audio.src = "http://meek.moe:8000/streamhigh.mp3"
+							this.audio.src = "http://meek.moe:8000/source.ogg"
 							return {
 								send: false,
-								result: format("high", 320, volume)
+								result: format(`"high"`, this.audio.src, volume)
 							}
 						}
-						else if (isNaN(bitrateSource)) {
+						/*else if (isNaN(bitrateSource)) {
 							return {
 								send: false,
 								result: `"${bitrateSource}" is not a valid argument for bitrate/source`
@@ -85,17 +93,19 @@ module.exports = class qtradio extends Plugin {
 								send: false,
 								result: format(quality, bitrateSource, volume)
 							}
-						}
+						}*/
 					}
 				}
 				else {
 					this.audio.volume = 1
-					this.audio.src = "http://meek.moe:8000/streamhigh.mp3"
+					//this.audio.src = "https://qtradio.moe/stream"    //not even this works 
+					this.audio.src = "http://meek.moe:8000/source.ogg"
 					return {
 						send: false,
-						result: format("high", this.audio.src, 100)
+						result: format(`"high"`, this.audio.src, 100)
 					}
 				}
+				
 			})
 		this.registerCommand(
 			"qtpause",
@@ -153,8 +163,8 @@ module.exports = class qtradio extends Plugin {
 			"{c} send",
 			async (args) => {
 				const np = await get('https://qtradio.moe/stats');
-				let data = np.body.icestats.source[1];
-				let decoded = decodeHTML(data.title)
+				let data = np.body.icestats.source;
+				let decoded = decodeHTML(data.artist + " - " +  data.title)
 				if (args == "send") {
 					return {
 						send: true,
@@ -164,7 +174,7 @@ module.exports = class qtradio extends Plugin {
 				else {
 					return {
 						send: false,
-						result: `Currently playing song is: "**${decoded}**". ' + "Remember, this isn't synchronised if you've paused before.`
+						result: `Currently playing song is: "**${decoded}**". Remember, this isn't synchronised if you've paused before.`
 					};
 				}
 			})
