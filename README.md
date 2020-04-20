@@ -1,4 +1,12 @@
-# qtradio-stream
+# qtradio-stream-crabbed
+
+
+
+**deprecated**
+as qtradio is ded half of this plugin doesn't work anymore, tho you may still be able to play audio files or streams via direct link.
+
+
+
 Commands available: 
 
 **qtradio** - Start playback of qtradio.moe/stream at 100% volume, you can change volume on first argument and on second argument change bitrate to 320, 192, 96 or to a different source(direct links only). Using this command again will restart playback.
